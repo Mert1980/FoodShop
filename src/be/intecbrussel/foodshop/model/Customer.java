@@ -40,4 +40,10 @@ public class Customer {
     public void setMoney(double money) {
         this.money = money;
     }
+
+    @Override
+    public String toString() {
+        return String.format("CUSTOMER   Name: %-10s  ID: %-10s  E-mail: %-15s  Money: %-5.2f€  ",
+                name, ID, email, money);
+    }
 }
