@@ -1,8 +1,9 @@
 package be.intecbrussel.foodshop.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Food {
+public class Food implements Serializable {
     private String brand;
     private String name;
     private double price;

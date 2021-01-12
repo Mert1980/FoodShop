@@ -2,21 +2,14 @@ package be.intecbrussel.foodshop.app;
 
 import be.intecbrussel.foodshop.data.input.WriteFile;
 import be.intecbrussel.foodshop.data.output.ReadFile;
+import be.intecbrussel.foodshop.data.serialization.Deserialize;
+import be.intecbrussel.foodshop.data.serialization.Serialize;
 import be.intecbrussel.foodshop.exception.FoodNotInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
 import be.intecbrussel.foodshop.model.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class FoodShopApp {
     public static void main(String[] args) {
@@ -51,6 +44,7 @@ public class FoodShopApp {
         order.setFoodItems(orderList);
 
         // print order
+        System.out.println("---------------ORDER---------------");
         order.getFoodItems().entrySet()
                 .forEach(System.out::println);
 
@@ -63,6 +57,7 @@ public class FoodShopApp {
         System.out.println("Total discounted price of order: " + order.getTotalPrice());
 
         // print sold food
+        System.out.println("-------------------SOLD FOOD--------------------------");
         try {
             foodShop.sellFood(order, customer1)
                     .entrySet()
@@ -79,8 +74,15 @@ public class FoodShopApp {
         WriteFile.write(foodStock);
 
         // read stock from file
+        System.out.println("--------------------READ FROM FILE-----------------------");
         ReadFile.read();
 
+        // serialize
+        Serialize.serialize(foodShop);
+
+        // deserialize
+        System.out.println("---------------------AFTER DESERIALIZATION------------------");
+        Deserialize.deserialize((foodShop));
 
     }
 }

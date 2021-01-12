@@ -5,11 +5,12 @@ import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
 import be.intecbrussel.foodshop.service.CustomerRepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FoodShop {
+public class FoodShop implements Serializable {
     private List<Register> registers;
     private Stock stock;
     private CustomerRepository customerRepository;

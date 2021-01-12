@@ -2,7 +2,9 @@ package be.intecbrussel.foodshop.model;
 
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyInRegisterException;
 
-public class Register {
+import java.io.Serializable;
+
+public class Register implements Serializable {
     private double money;
 
     public Register() {

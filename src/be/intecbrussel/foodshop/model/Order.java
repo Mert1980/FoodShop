@@ -1,11 +1,12 @@
 package be.intecbrussel.foodshop.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Order {
+public class Order implements Serializable {
     private Map<Food, Integer> foodItems;
     private double percentDiscount;
 

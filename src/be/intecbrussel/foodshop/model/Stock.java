@@ -4,10 +4,11 @@ import be.intecbrussel.foodshop.exception.FoodAlreadyInStockException;
 import be.intecbrussel.foodshop.exception.FoodNotInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Stock {
+public class Stock implements Serializable {
     private Map<Food, Integer> foodStock;
 
     {
