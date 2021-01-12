@@ -1,5 +1,7 @@
 package be.intecbrussel.foodshop.model;
 
+import java.util.Objects;
+
 public class Food {
     private String brand;
     private String name;
@@ -43,6 +45,21 @@ public class Food {
 
     public void setCalorie(double calorie) {
         this.calorie = calorie;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Food))
+            return false;
+        Food food = (Food) o;
+        return Double.compare(food.price, price) == 0 && Double.compare(food.calorie, calorie) == 0 && brand.equals(food.brand) && name.equals(food.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, name, price, calorie);
     }
 
     @Override
