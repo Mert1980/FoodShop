@@ -10,7 +10,7 @@ public class Serialize {
     public static void serialize(FoodShop foodShop){
         try(FileOutputStream file = new FileOutputStream("foodshop.ser");
             ObjectOutputStream out = new ObjectOutputStream(file)){
-            out.writeObject(foodShop); // write drawing object to file
+            out.writeObject(foodShop); // write foodShop object to file
         } catch (IOException ex){
             System.out.println(ex.getMessage());
         }

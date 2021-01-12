@@ -10,7 +10,7 @@ public class Deserialize {
     public static void deserialize(FoodShop foodShop){
         try (FileInputStream file = new FileInputStream("foodshop.ser");
              ObjectInputStream in = new ObjectInputStream(file)) {
-            // read Drawing object from file
+            // read foodShop object from file
             foodShop = (FoodShop) in.readObject();
             // print stock on the terminal
             foodShop.getStock()
