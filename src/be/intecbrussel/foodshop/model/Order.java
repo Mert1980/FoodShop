@@ -1,6 +1,7 @@
 package be.intecbrussel.foodshop.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,9 +9,8 @@ public class Order {
     private Map<Food, Integer> foodItems;
     private double percentDiscount;
 
-    public Order(Map<Food, Integer> foodItems, double percentDiscount) {
-        this.foodItems = foodItems;
-        this.percentDiscount = percentDiscount;
+    public Order() {
+        this.foodItems = new HashMap<>();
     }
 
     public Map<Food, Integer> getFoodItems() {

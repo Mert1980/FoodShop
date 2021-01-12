@@ -1,5 +1,6 @@
 package be.intecbrussel.foodshop.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +9,8 @@ public class FoodShop {
     private Stock stock;
     private CustomerRepository customerRepository;
 
-    public FoodShop(List<Register> registers, Stock stock, CustomerRepository customerRepository) {
-        this.registers = registers;
-        this.stock = stock;
-        this.customerRepository = customerRepository;
+    public FoodShop() {
+        this.registers = new ArrayList<>();
     }
 
     public List<Register> getRegisters() {

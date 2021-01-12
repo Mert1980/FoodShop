@@ -44,4 +44,10 @@ public class Food {
     public void setCalorie(double calorie) {
         this.calorie = calorie;
     }
+
+    @Override
+    public String toString() {
+        return String.format("FOOD   Brand: %-10s  Name: %-10s  Price: %-15s  Calorie: %-5.2f€  ",
+                brand, name, price, calorie);
+    }
 }
