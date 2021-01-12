@@ -1,8 +1,18 @@
 package be.intecbrussel.foodshop.app;
 
+import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
 import be.intecbrussel.foodshop.model.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class FoodShopApp {
     public static void main(String[] args) {
@@ -25,7 +35,8 @@ public class FoodShopApp {
         foodShop.setStock(stock);
 
         // create register
-        Register register = new Register(500);
+        Register register = new Register();
+        register.addMoney(1000);
 
         // create order
         HashMap<Food, Integer> orderList = new HashMap<>();
@@ -44,13 +55,44 @@ public class FoodShopApp {
         System.out.println("Total price of order: " + totalPrice);
 
         // calculate discounted price
-        double discountedPrice = order.applyDiscount(50);
-        System.out.println("Total discounted price of order: " + discountedPrice);
+        order.applyDiscount(50);
+        System.out.println("Total discounted price of order: " + order.getTotalPrice());
 
         // print sold food
-        foodShop.sellFood(order, customer1)
-                .entrySet()
-                .forEach(System.out::println);
+        try {
+            foodShop.sellFood(order, customer1)
+                    .entrySet()
+                    .forEach(System.out::println);
+        } catch (NotEnoughMoneyException e) {
+            e.printStackTrace();
+        }
+
+        // write stock to a file
+        Path path = Paths.get("FoodStock.txt");
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("FoodStock.txt", true))){
+            Set<Map.Entry<Food, Integer>> foodSet = foodStock.entrySet();
+            foodSet.forEach(item -> {
+                try {
+                    writer.write(item.getKey().toString() + " " + item.getValue() + "\n");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+        } catch (IOException ex){
+            System.out.println("Oops, something went wrong!");
+            System.out.println(ex.getMessage());
+        }
+        // read the file line by line
+        try(BufferedReader reader = Files.newBufferedReader(path)) {
+            String line = null;
+            while((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        } catch (IOException ex){
+            System.out.println("Oops, something went wrong!");
+            System.out.println(ex.getMessage());
+        }
 
     }
 }

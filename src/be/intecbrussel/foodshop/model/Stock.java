@@ -1,13 +1,17 @@
 package be.intecbrussel.foodshop.model;
 
+import be.intecbrussel.foodshop.exception.FoodAlreadyInStockException;
+import be.intecbrussel.foodshop.exception.FoodNotInStockException;
+import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Stock {
     private Map<Food, Integer> foodStock;
 
-    public Stock() {
-        this.foodStock = new HashMap<>();
+    {
+        foodStock = new HashMap<>();
     }
 
     public Map<Food, Integer> getFoodStock() {
@@ -18,9 +22,12 @@ public class Stock {
         this.foodStock = foodStock;
     }
 
-    public void addFood(Food food){
+    public void addFood(Food food) throws FoodAlreadyInStockException {
         if(food != null){
-            foodStock.putIfAbsent(food, 1);
+            Integer value = this.foodStock.putIfAbsent(food, 0);
+            if (value != null) {
+                throw new FoodAlreadyInStockException("Food " + food.getName() + " is already in the stock.");
+            }
         }
     }
 
@@ -28,15 +35,24 @@ public class Stock {
         foodStock.remove(food);
     }
 
-    public void addToStock(Food food, int amountToAdd){
-        int newAmount = foodStock.get(food) + amountToAdd;
-        foodStock.putIfAbsent(food, newAmount);
+    public void addToStock(Food food, int amountToAdd) throws FoodNotInStockException{
+        if (foodStock.containsKey(food)) {
+            int newAmount = foodStock.get(food) + amountToAdd;
+            foodStock.replace(food, newAmount);
+        } else {
+            throw new FoodNotInStockException("Food " + food.getName() + " does not have stock!");
+        }
     }
 
-    public void removeFromStock(Food food, int amountToRemove){
-        if(foodStock.get(food) >= amountToRemove){
-            int newAmount = foodStock.get(food) - amountToRemove;
-            foodStock.putIfAbsent(food, newAmount);
+    public void removeFromStock(Food food, int amountToRemove) throws NotEnoughFoodInStockException, FoodNotInStockException {
+        if (!foodStock.containsKey(food)) {
+            throw new FoodNotInStockException("Food " + food.getName() + " does not have a stock!");
+        }
+
+        if (this.foodStock.get(food) < amountToRemove) {
+            throw new NotEnoughFoodInStockException("There is not enough of this food " + food.getName() + " in stock. Stock: " + this.foodStock.get(food) + " | Trying to remove: " + amountToRemove);
+        }  else {
+            this.foodStock.replace(food, foodStock.get(food) - amountToRemove);
         }
     }
 }
