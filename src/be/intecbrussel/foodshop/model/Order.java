@@ -25,17 +25,19 @@ public class Order {
         return percentDiscount;
     }
 
-    public double applyDiscount(double percent) {
-        return getTotalPrice() * (1 - (percent / 100));
+    public void applyDiscount(double percent) {
+        percentDiscount = percent;
     }
 
     public double getTotalPrice(){
         // obtain a set of key-value pairs:
-        Set<Map.Entry<Food, Integer>> foodSet = foodItems.entrySet();
+        Set<Map.Entry<Food, Integer>> entrySet = foodItems.entrySet();
+        double totalPrice = entrySet.stream()
+                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                .sum();
 
-        double totalPrice = foodSet.stream()
-                .map(food -> food.getKey().getPrice() * food.getValue())
-                .reduce(0.0, (acc, el) -> acc + el);
-        return totalPrice;
+        double priceAfterDiscount = totalPrice - (totalPrice/100*percentDiscount);
+
+        return priceAfterDiscount;
     }
 }
