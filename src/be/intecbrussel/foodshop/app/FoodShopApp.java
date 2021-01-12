@@ -1,5 +1,9 @@
 package be.intecbrussel.foodshop.app;
 
+import be.intecbrussel.foodshop.data.input.WriteFile;
+import be.intecbrussel.foodshop.data.output.ReadFile;
+import be.intecbrussel.foodshop.exception.FoodNotInStockException;
+import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
 import be.intecbrussel.foodshop.model.*;
 
@@ -65,34 +69,18 @@ public class FoodShopApp {
                     .forEach(System.out::println);
         } catch (NotEnoughMoneyException e) {
             e.printStackTrace();
+        } catch (FoodNotInStockException e) {
+            e.printStackTrace();
+        } catch (NotEnoughFoodInStockException e) {
+            e.printStackTrace();
         }
 
         // write stock to a file
-        Path path = Paths.get("FoodStock.txt");
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("FoodStock.txt", true))){
-            Set<Map.Entry<Food, Integer>> foodSet = foodStock.entrySet();
-            foodSet.forEach(item -> {
-                try {
-                    writer.write(item.getKey().toString() + " " + item.getValue() + "\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+        WriteFile.write(foodStock);
 
-        } catch (IOException ex){
-            System.out.println("Oops, something went wrong!");
-            System.out.println(ex.getMessage());
-        }
-        // read the file line by line
-        try(BufferedReader reader = Files.newBufferedReader(path)) {
-            String line = null;
-            while((line = reader.readLine()) != null){
-                System.out.println(line);
-            }
-        } catch (IOException ex){
-            System.out.println("Oops, something went wrong!");
-            System.out.println(ex.getMessage());
-        }
+        // read stock from file
+        ReadFile.read();
+
 
     }
 }
