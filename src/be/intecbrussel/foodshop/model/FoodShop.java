@@ -1,5 +1,9 @@
 package be.intecbrussel.foodshop.model;
 
+import be.intecbrussel.foodshop.exception.FoodNotInStockException;
+import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
+import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +42,7 @@ public class FoodShop {
         this.customerRepository = customerRepository;
     }
 
-    public Map<Food, Integer> sellFood(Order order, Customer payingCustomer){
+    public Map<Food, Integer> sellFood(Order order, Customer payingCustomer) throws NotEnoughMoneyException {
         // check if all food is available
 
 
@@ -53,15 +57,7 @@ public class FoodShop {
         for (Map.Entry<Food, Integer> entry : order.getFoodItems().entrySet()) {
             Food food = entry.getKey();
             Integer amount = entry.getValue();
-            try {
-                stock.removeFromStock(food, amount);
-            } catch (NotEnoughFoodInStockException notEnoughFoodInStockException) {
-                // Should never trigger because we checked already
-                notEnoughFoodInStockException.printStackTrace();
-            } catch (FoodNotInStockException foodNotInStockException) {
-                // Should never trigger because we checked already
-                foodNotInStockException.printStackTrace();
-            }
+            stock.removeFromStock(food, amount);
         }
 
         // update the money of customer
