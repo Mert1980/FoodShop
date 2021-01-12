@@ -1,5 +1,6 @@
 package be.intecbrussel.foodshop.model;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,10 +30,12 @@ public class Order {
     }
 
     public double getTotalPrice(){
-        Set<Food> foodSet = foodItems.keySet();
+        // obtain a set of key-value pairs:
+        Set<Map.Entry<Food, Integer>> foodSet = foodItems.entrySet();
+
         double totalPrice = foodSet.stream()
-                .mapToDouble(Food::getPrice)
-                .sum();
+                .map(food -> food.getKey().getPrice() * food.getValue())
+                .reduce(0.0, (acc, el) -> acc + el);
         return totalPrice;
     }
 }
