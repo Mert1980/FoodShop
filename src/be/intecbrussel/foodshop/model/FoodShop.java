@@ -42,7 +42,7 @@ public class FoodShop {
         this.customerRepository = customerRepository;
     }
 
-    public Map<Food, Integer> sellFood(Order order, Customer payingCustomer) throws NotEnoughMoneyException {
+    public Map<Food, Integer> sellFood(Order order, Customer payingCustomer) throws NotEnoughMoneyException, FoodNotInStockException, NotEnoughFoodInStockException {
         // check if all food is available
 
 
