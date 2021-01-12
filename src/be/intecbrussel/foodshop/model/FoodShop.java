@@ -3,6 +3,7 @@ package be.intecbrussel.foodshop.model;
 import be.intecbrussel.foodshop.exception.FoodNotInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
+import be.intecbrussel.foodshop.service.CustomerRepository;
 
 import java.util.ArrayList;
 import java.util.List;
