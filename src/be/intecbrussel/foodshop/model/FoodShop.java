@@ -11,6 +11,7 @@ public class FoodShop {
 
     public FoodShop() {
         this.registers = new ArrayList<>();
+        registers.add(new Register());
     }
 
     public List<Register> getRegisters() {
@@ -38,19 +39,37 @@ public class FoodShop {
     }
 
     public Map<Food, Integer> sellFood(Order order, Customer payingCustomer){
-        // remove order from stock
-        order.getFoodItems()
-                .forEach((food, amount) -> stock.removeFromStock(food, amount));
+        // check if all food is available
 
-        // calculate the total order price
+
+        // calculate the total order price and check if customer has enough money
         double totalPrice = order.getTotalPrice();
+        double moneyInHand = payingCustomer.getMoney() - totalPrice;
+        if (moneyInHand < 0){
+            throw new NotEnoughMoneyException();
+        }
+
+        // remove order from stock
+        for (Map.Entry<Food, Integer> entry : order.getFoodItems().entrySet()) {
+            Food food = entry.getKey();
+            Integer amount = entry.getValue();
+            try {
+                stock.removeFromStock(food, amount);
+            } catch (NotEnoughFoodInStockException notEnoughFoodInStockException) {
+                // Should never trigger because we checked already
+                notEnoughFoodInStockException.printStackTrace();
+            } catch (FoodNotInStockException foodNotInStockException) {
+                // Should never trigger because we checked already
+                foodNotInStockException.printStackTrace();
+            }
+        }
 
         // update the money of customer
-        double moneyInHand = payingCustomer.getMoney() - totalPrice;
         payingCustomer.setMoney(moneyInHand);
 
-        // add money to register (In which register will I add money ???
-
+        // add money to register (In which register will I add money ???)
+        // TODO Register -> multithreading
+        registers.get(0).addMoney(totalPrice);
 
         return order.getFoodItems();
     }

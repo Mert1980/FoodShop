@@ -5,7 +5,7 @@ import be.intecbrussel.foodshop.exception.NotEnoughMoneyInRegisterException;
 public class Register {
     private double money;
 
-    public Register(double money) {
+    public Register() {
         this.money = money;
     }
 
