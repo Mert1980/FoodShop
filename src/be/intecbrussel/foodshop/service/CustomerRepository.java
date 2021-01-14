@@ -10,4 +10,8 @@ public class CustomerRepository {
     public void writeCustomer(Customer customer){
         customerDao.writeCustomer(customer);
     }
+
+    public Customer readCustomer(){
+        return customerDao.readCustomer();
+    }
 }

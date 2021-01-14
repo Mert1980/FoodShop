@@ -8,6 +8,10 @@ public class Customer implements Serializable {
     private String email;
     private double money;
 
+    public Customer(){
+        this("", 0, "", 0);
+    }
+
     public Customer(String name, int ID, String email, double money) {
         this.name = name;
         this.ID = ID;
@@ -25,6 +29,10 @@ public class Customer implements Serializable {
 
     public int getID() {
         return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getEmail() {
