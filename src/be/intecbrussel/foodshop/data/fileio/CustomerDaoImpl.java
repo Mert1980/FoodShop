@@ -4,7 +4,6 @@ import be.intecbrussel.foodshop.config.FilePaths;
 import be.intecbrussel.foodshop.data.CustomerDao;
 import be.intecbrussel.foodshop.model.Customer;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
