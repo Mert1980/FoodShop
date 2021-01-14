@@ -4,6 +4,7 @@ import be.intecbrussel.foodshop.data.input.WriteFile;
 import be.intecbrussel.foodshop.data.output.ReadFile;
 import be.intecbrussel.foodshop.data.serialization.Deserialize;
 import be.intecbrussel.foodshop.data.serialization.Serialize;
+import be.intecbrussel.foodshop.exception.FoodAlreadyInStockException;
 import be.intecbrussel.foodshop.exception.FoodNotInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughMoneyException;
@@ -22,26 +23,47 @@ public class FoodShopApp {
 
         // create stock of food
         Stock stock = new Stock();
-        HashMap<Food, Integer> foodStock = new HashMap<>();
-        foodStock.putIfAbsent(pizza, 10);
-        foodStock.putIfAbsent(hamburger, 10);
-        stock.setFoodStock(foodStock);
+
+        // create food to stock
+        try {
+            stock.addFood(pizza);
+        } catch (FoodAlreadyInStockException e) {
+            e.printStackTrace();
+        }
+        try {
+            stock.addFood(hamburger);
+        } catch (FoodAlreadyInStockException e) {
+            e.printStackTrace();
+        }
+
+        // add food to stock
+        try {
+            stock.addToStock(pizza, 10);
+        } catch (FoodNotInStockException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            stock.addToStock(hamburger, 10);
+        } catch (FoodNotInStockException e) {
+            e.printStackTrace();
+        }
+
+        // print stock
+        System.out.println("---------------STOCK---------------");
+        stock.getFoodStock().entrySet().forEach(System.out::println);
 
         // create food shop
-        FoodShop foodShop = new FoodShop();
-        foodShop.setStock(stock);
+        FoodShop foodShop = new FoodShop(stock);
 
         // create register
         Register register = new Register();
         register.addMoney(1000);
 
         // create order
-        HashMap<Food, Integer> orderList = new HashMap<>();
-        orderList.putIfAbsent(pizza, 2);
-        orderList.putIfAbsent(hamburger, 3);
-
         Order order = new Order();
-        order.setFoodItems(orderList);
+        order.addFoodToOrder(pizza, 2);
+        order.addFoodToOrder(hamburger, 3);
 
         // print order
         System.out.println("---------------ORDER---------------");
@@ -70,8 +92,12 @@ public class FoodShopApp {
             e.printStackTrace();
         }
 
+        // print stock after order
+        System.out.println("---------------STOCK---------------");
+        stock.getFoodStock().entrySet().forEach(System.out::println);
+
         // write stock to a file
-        WriteFile.write(foodStock);
+        WriteFile.write(stock.getFoodStock());
 
         // read stock from file
         System.out.println("--------------------READ FROM FILE-----------------------");
@@ -80,9 +106,15 @@ public class FoodShopApp {
         // serialize
         Serialize.serialize(foodShop);
 
+        pizza.setPrice(15);
+
         // deserialize
         System.out.println("---------------------AFTER DESERIALIZATION------------------");
         Deserialize.deserialize((foodShop));
+
+        // print stock after deserialization
+        System.out.println("---------------STOCK---------------");
+        stock.getFoodStock().entrySet().forEach(System.out::println);
 
     }
 }

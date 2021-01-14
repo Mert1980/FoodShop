@@ -58,10 +58,6 @@ public class Food implements Serializable {
         return Double.compare(food.price, price) == 0 && Double.compare(food.calorie, calorie) == 0 && brand.equals(food.brand) && name.equals(food.name);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(brand, name, price, calorie);
-    }
 
     @Override
     public String toString() {

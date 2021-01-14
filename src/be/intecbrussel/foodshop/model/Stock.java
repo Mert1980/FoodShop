@@ -1,5 +1,6 @@
 package be.intecbrussel.foodshop.model;
 
+import be.intecbrussel.foodshop.data.serialization.Serialize;
 import be.intecbrussel.foodshop.exception.FoodAlreadyInStockException;
 import be.intecbrussel.foodshop.exception.FoodNotInStockException;
 import be.intecbrussel.foodshop.exception.NotEnoughFoodInStockException;
@@ -19,11 +20,11 @@ public class Stock implements Serializable {
         return foodStock;
     }
 
-    public void setFoodStock(HashMap<Food, Integer> foodStock) {
+    public void setFoodStock(Map<Food, Integer> foodStock) {
         this.foodStock = foodStock;
     }
 
-    public void addFood(Food food) throws FoodAlreadyInStockException {
+    public void addFood(Food food) throws FoodAlreadyInStockException{
         if(food != null){
             Integer value = this.foodStock.putIfAbsent(food, 0);
             if (value != null) {
@@ -32,8 +33,8 @@ public class Stock implements Serializable {
         }
     }
 
-    public void removeFood(Food food){
-        foodStock.remove(food);
+    public void removeFood(Food food) {
+        this.foodStock.remove(food);
     }
 
     public void addToStock(Food food, int amountToAdd) throws FoodNotInStockException{
@@ -56,4 +57,5 @@ public class Stock implements Serializable {
             this.foodStock.replace(food, foodStock.get(food) - amountToRemove);
         }
     }
+
 }

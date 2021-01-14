@@ -15,9 +15,11 @@ public class FoodShop implements Serializable {
     private Stock stock;
     private CustomerRepository customerRepository;
 
-    public FoodShop() {
+    public FoodShop(Stock stock) {
+        this.stock = stock;
         this.registers = new ArrayList<>();
         registers.add(new Register());
+
     }
 
     public List<Register> getRegisters() {

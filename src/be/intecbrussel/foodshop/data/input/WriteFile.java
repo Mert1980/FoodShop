@@ -5,16 +5,15 @@ import be.intecbrussel.foodshop.model.Food;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class WriteFile {
 
-    public static void write(HashMap<Food, Integer> foodStock){
+    public static void write(Map<Food, Integer> foodStock){
         // write stock to a file
 
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("FoodStock.txt", true))){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("FoodStock.txt", false))){
             Set<Map.Entry<Food, Integer>> foodSet = foodStock.entrySet();
             foodSet.forEach(item -> {
                 try {
