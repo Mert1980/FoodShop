@@ -13,10 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class CustomerDaoImpl implements CustomerDao {
-    Customer customer = new Customer();
+
 
     @Override
     public Customer readCustomer() {
+        Customer customer = null;
         Path path = Paths.get(FilePaths.CUSTOMER_FILEPATH.getFile().getPath());
 
         try(BufferedReader reader = Files.newBufferedReader(path)) {
@@ -24,10 +25,14 @@ public class CustomerDaoImpl implements CustomerDao {
 
             while((line = reader.readLine()) != null){
                 String[] parts = line.split(",");
-                customer.setName(parts[0]);
-                customer.setID(Integer.valueOf(parts[1]));
-                customer.setEmail(parts[2]);
-                customer.setMoney((double)Integer.valueOf(parts[1]));
+
+                String name = parts[0];
+                int ID= Integer.parseInt(parts[1]);
+                String email = parts[2];
+                double money = Double.parseDouble(parts[3]);
+
+                customer = new Customer(name, ID, email, money);
+
             }
         } catch (IOException ex){
             System.out.println("Oops, something went wrong!");
